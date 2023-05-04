@@ -17,3 +17,12 @@ Sugestões:
 - Compactação utilizando FFT
 - Criar "fundos" para câmera estilo teams/google meet
 - [Segment Anything](https://segment-anything.com/) -->
+
+# Sites
+https://pyimagesearch.com/2018/08/20/opencv-text-detection-east-text-detector/
+
+https://towardsdatascience.com/tutorial-alphabet-recognition-deeplearning-opencv-97e697b8fb86
+
+https://data-flair.training/blogs/handwritten-character-recognition-neural-network/
+
+https://www.geeksforgeeks.org/text-detection-and-extraction-using-opencv-and-ocr/
