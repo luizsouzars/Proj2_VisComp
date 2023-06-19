@@ -45,6 +45,7 @@ def Tex2fig(serie: pd.Series):
     plt.axis("off")
     ax.set_axis_off()
     plt.savefig(f"./img_out/{img_name}.png", bbox_inches="tight")
+    plt.close()
 
 
 def main():
@@ -55,11 +56,17 @@ def main():
     if not os.path.exists("./img_out/"):
         os.mkdir("./img_out/")
         print("Directory './img_out/' created")
-
-    print("Directory './img_out/' exists")
+    else:
+        print("Directory './img_out/' exists")
 
     # Esperado um csv com as colunas "latex", "operation", "img_name"
-    df = pd.read_csv(fstring, sep=";", quotechar="'")
+    df = pd.read_csv(
+        fstring,
+        sep=";",
+        quotechar="'",
+        names=["latex", "operation", "img_name"],
+        header=None,
+    )
     df.apply(Tex2fig, axis=1)
 
 
