@@ -10,6 +10,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 import time
+from datetime import datetime
 
 pd.set_option("display.max_rows", None)
 
@@ -17,6 +18,8 @@ le = LabelEncoder()
 ohe = OneHotEncoder(sparse_output=False)
 
 os.system("cls" if os.name == "nt" else "clear")
+
+print("tensorflow.keras version:", keras.__version__)
 
 if len(argv) > 1 and argv[1] == "-p":
     comb_oprs = [[op for op in argv[3].split("-")]]
@@ -32,8 +35,7 @@ else:
         comb_oprs.append(list(comb))
     comb_oprs.append(list(opr))
 
-    # qnts = [100, 500, 1000, 5000, 10000, 50000, 100000]
-    qnts = [5000, 10000, 50000, 100000]
+    qnts = [1000, 5000, 10000, 50000, 100000]
 
 
 def write(regs: list):
@@ -56,13 +58,14 @@ def write(regs: list):
             f.write("test_sub;")
             f.write("test_mult;")
             f.write("test_div;")
-            f.write("tempo_proc;")
+            f.write("tempo_proc[s];")
             f.write("test_loss;")
             f.write("test_accuracy;")
             f.write("pred_add;")
             f.write("pred_sub;")
             f.write("pred_mult;")
-            f.write("pred_div")
+            f.write("pred_div;")
+            f.write("datetime")
             f.write("\n")
     with open(file_path, "a+") as f:
         for r in regs:
@@ -151,6 +154,8 @@ for q in qnts:
         print("x_train shape:", x_train.shape)
         print(x_train.shape[0], "train samples")
         print(x_test.shape[0], "test samples")
+
+        keras.backend.clear_session()
 
         model = keras.Sequential(
             [
@@ -241,6 +246,9 @@ for q in qnts:
         pred_mult = df_pred.loc[df_pred["pred"] == "mult"].shape[0]
         pred_div = df_pred.loc[df_pred["pred"] == "div"].shape[0]
 
+        # TimeStamp
+        dt = datetime.now().isoformat(timespec="seconds")
+
         regs = [
             qnt_imagens,
             qnt_opr,
@@ -265,6 +273,7 @@ for q in qnts:
             pred_sub,
             pred_mult,
             pred_div,
+            dt
         ]
 
         write(regs)
